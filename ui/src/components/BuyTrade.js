@@ -6,12 +6,13 @@ import { buyStocks } from '../actions/stockaction'
 const BuyTrade = (name,price) => {
     const [quantity, setQuantity] = useState(0)
     const dispatch = useDispatch()
+    const currentPrice = 500 + Math.random()*100
     const buy = () => {
         if(isNaN(parseInt(quantity)) || parseInt(quantity) === 0){
             toastifier("Enter Valid Quantity", { type: 'error', showIcon: true, animation: 'flip' })
         }
         else{
-            dispatch(buyStocks(name,'Buy',parseFloat(price), parseInt(quantity)))
+            dispatch(buyStocks(name,'Buy',parseFloat(price), parseInt(quantity),currentPrice))
         }
     }
 

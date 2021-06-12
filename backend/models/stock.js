@@ -5,6 +5,10 @@ const stockSchema = {
         type:String,
         required:true
     },
+    currentPrice:{
+        type:Number,
+        default:500
+    },
     buyPrice:{
         type:Number,
         default:0
@@ -16,6 +20,10 @@ const stockSchema = {
     quantity:{
         type:Number,
         required:true
+    },
+    returns:{
+        type:Number,
+        default:0
     }
 }
 

@@ -7,6 +7,21 @@ const portfolio = [
             quantity:5,
             transaction:2500
         },
+        buy:{
+            price:500,
+            quantity:5,
+            transaction:2500
+        },
+        buy:{
+            price:500,
+            quantity:5,
+            transaction:2500
+        },
+        buy:{
+            price:500,
+            quantity:5,
+            transaction:2500
+        },
         sell:{
             price:560,
             quantity:3,

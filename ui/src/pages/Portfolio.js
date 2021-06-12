@@ -48,8 +48,10 @@ const StyledTableCell = withStyles((theme) => ({
             <TableBody>
                 <TableRow key={item._id}>
                   <TableCell align="left">{item.stockName}</TableCell>
+                  <TableCell align="left">{item.currentPrice}</TableCell>
                   <TableCell align="left">{item.buyPrice}</TableCell>
                   <TableCell align="left">{item.sellPrice}</TableCell>
+                  <TableCell align="left">{item.returns}</TableCell>
                   <TableCell align="left">{item.quantity}</TableCell>
                   {/* <TableCell align="left">
                      <BuyTrade name={item.name} type="Buy" price={item.buy[0].price} quantity={item.buy[0].quantity}/>
@@ -68,8 +70,10 @@ const StyledTableCell = withStyles((theme) => ({
           <TableHead>
             <TableRow>
               <StyledTableCell align="left">Name</StyledTableCell>
+              <StyledTableCell align="left">Current Stock Price</StyledTableCell>
               <StyledTableCell align="left">AVG. Buy Price</StyledTableCell>
               <StyledTableCell align="left">AVG. Sell Price</StyledTableCell>
+              <StyledTableCell align="left">Current Returns</StyledTableCell>
               <StyledTableCell align="left">Quantity</StyledTableCell>
               <StyledTableCell align="left">Buy/Sell</StyledTableCell>
             </TableRow>
