@@ -2,27 +2,22 @@ const mongoose = require('mongoose')
 
 const details = {
     price:{
-        type:Number,
-        required:true
+        type:Number
     },
     quantity:{
-        type:Number,
-        required:true
+        type:Number
     },
     transaction:{
-        type:Number,
-        required:true
+        type:Number
     }
 }
 
 const stockSchema = {
     name:{
-        type:String,
-        required:true
+        type:String
     },
     trade:{
-        type:String,
-        required:true
+        type:String
     },
     buy:[details],
     sell:[details]
