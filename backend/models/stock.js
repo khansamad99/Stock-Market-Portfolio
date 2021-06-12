@@ -14,13 +14,25 @@ const details = {
 
 const stockSchema = {
     name:{
-        type:String
+        type:String,
+        required:true
     },
     trade:{
-        type:String
+        type:String,
+        required:true
     },
-    buy:[details],
-    sell:[details]
+    buyPrice:{
+        type:Number,
+        required:true
+    },
+    sellPrice:{
+        type:Number,
+        required:true
+    },
+    qunatity:{
+        type:Number,
+        required:true
+    }
 }
 
 const stock = mongoose.model('Stock', stockSchema)
