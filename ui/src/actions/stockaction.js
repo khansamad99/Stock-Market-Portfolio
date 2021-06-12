@@ -1,6 +1,7 @@
 import axios from "axios";
 import toastifier from 'toastifier'
 import 'toastifier/dist/toastifier.min.css';
+import {API} from '../backend';
 import {
   BUY_TRADE,
   SELL_TRADE,
@@ -16,7 +17,7 @@ export const buyStocks = (stockName,trade,price,quantity) => async(dispatch) => 
           };
           const data = { stockName, trade,price, quantity };
           const res = await axios.post(
-            `${process.env.BACKEND_URL}/trade/buy`,
+            `${API}/transactions`,
             data,
             config
           );
@@ -48,7 +49,7 @@ export const sellStocks = (stockName,trade,price,quantity) => async(dispatch) =>
           };
           const data = { stockName,trade,price, quantity };
           const res = await axios.post(
-            `${process.env.NEXT_BACKEND_URL}/trade/sell`,
+            `${API}/transactions`,
             data,
             config
           );

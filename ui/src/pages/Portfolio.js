@@ -10,6 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import BuyTrade from '../components/BuyTrade';
 import SellTrade from '../components/SellTrade';
+import {API} from '../backend';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -32,22 +33,16 @@ const StyledTableCell = withStyles((theme) => ({
   const Portfolio = () => {
     const classes = useStyles();
     const [stocks,setStocks] = useState([]);
-    const [name,setName] = useState("")
-    const [buyPrice,setbuyPrice] = useState(0)
-    const [sellPrice,setsellPrice] = useState(0)
-    const [quantity,setQuantity] = useState(0)
 
-    
     useEffect(() => {
-        fetch(`http://localhost:5000/api/stocks/portfolio`,{method:"GET"})
+        fetch(`${API}/portfolio`,{method:"GET"})
           .then(res => res.json())
           .then(data => {
             setStocks(data);
             console.log(data);
           })
           .catch(err => console.log(err));
-    });
-        console.log(stocks)
+    },[]);
         const res = stocks.map(item => {
         return (
             <TableBody>

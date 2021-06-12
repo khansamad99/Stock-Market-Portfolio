@@ -1,4 +1,4 @@
-import { BUY_TRADE, SELL_TRADE, GET_TRADE, SET_ERROR } from '../actions/constant'
+import { BUY_TRADE, SELL_TRADE, SET_ERROR } from '../actions/constant'
 
 const initialState = {
     trade: {},
