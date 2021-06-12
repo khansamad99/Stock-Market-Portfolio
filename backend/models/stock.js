@@ -1,35 +1,19 @@
 const mongoose = require('mongoose')
 
-const details = {
-    price:{
-        type:Number
-    },
-    quantity:{
-        type:Number
-    },
-    transaction:{
-        type:Number
-    }
-}
-
 const stockSchema = {
-    name:{
-        type:String,
-        required:true
-    },
-    trade:{
+    stockName:{
         type:String,
         required:true
     },
     buyPrice:{
         type:Number,
-        required:true
+        default:0
     },
     sellPrice:{
         type:Number,
-        required:true
+        default:0
     },
-    qunatity:{
+    quantity:{
         type:Number,
         required:true
     }

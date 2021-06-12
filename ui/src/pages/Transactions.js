@@ -30,31 +30,27 @@ const StyledTableCell = withStyles((theme) => ({
   });
   
  
-  const Portfolio = () => {
+  const Transactions = () => {
     const classes = useStyles();
-    const [stocks,setStocks] = useState([]);
+    const [transaction,setTransaction] = useState([]);
 
     useEffect(() => {
-        fetch(`${API}/portfolio`,{method:"GET"})
+        fetch(`${API}/alltransactions`,{method:"GET"})
           .then(res => res.json())
           .then(data => {
-            setStocks(data);
-            console.log(data);
+            setTransaction(data);
           })
           .catch(err => console.log(err));
     },[]);
-        const res = stocks.map(item => {
+    console.log(transaction)
+        const res = transaction.map(item => {
         return (
             <TableBody>
                 <TableRow key={item._id}>
                   <TableCell align="left">{item.stockName}</TableCell>
-                  <TableCell align="left">{item.buyPrice}</TableCell>
-                  <TableCell align="left">{item.sellPrice}</TableCell>
-                  <TableCell align="left">{item.quantity}</TableCell>
-                  {/* <TableCell align="left">
-                     <BuyTrade name={item.name} type="Buy" price={item.buy[0].price} quantity={item.buy[0].quantity}/>
-                     <SellTrade name={item.name} type="Sell" price={item.sell[0].price} quantity={item.sell[0].quantity}/>
-                  </TableCell> */}
+                  <TableCell align="left">{item.trade.toUpperCase()}</TableCell>
+                  <TableCell align="left">{item.trade === 'sell' ? item.sell[0].price : item.buy[0].price}</TableCell>
+                  <TableCell align="left">{item.trade === 'sell' ? item.sell[0].quantity : item.buy[0].quantity}</TableCell>
                 </TableRow>
             </TableBody>
         )
@@ -62,16 +58,15 @@ const StyledTableCell = withStyles((theme) => ({
    
     return (
       <Fragment>
-      <h1 className="text-center" >Portfolio</h1>
+      <h1 className="text-center" >Recent Transactions</h1>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
               <StyledTableCell align="left">Name</StyledTableCell>
-              <StyledTableCell align="left">AVG. Buy Price</StyledTableCell>
-              <StyledTableCell align="left">AVG. Sell Price</StyledTableCell>
+              <StyledTableCell align="left">Trade</StyledTableCell>
+              <StyledTableCell align="left">Price</StyledTableCell>
               <StyledTableCell align="left">Quantity</StyledTableCell>
-              <StyledTableCell align="left">Buy/Sell</StyledTableCell>
             </TableRow>
           </TableHead>
            {res}
@@ -82,4 +77,4 @@ const StyledTableCell = withStyles((theme) => ({
   }
 
 
-  export default Portfolio;
+  export default Transactions;

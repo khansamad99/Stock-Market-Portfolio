@@ -51,6 +51,7 @@ const Homepage = () => {
               <Typography variant="h6" className={classes.title}>
                 Smallcase
               </Typography>
+              <Button color="inherit" href="/transaction">Transactions</Button>
               <Button color="inherit" href="/portfolio">My Portfolio</Button>
             </Toolbar>
           </AppBar>

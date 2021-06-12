@@ -4,8 +4,8 @@
   "description": "Portfolio Tracking",
   "main": "app.js",
   "scripts": {
-    "start": "node server",
-    "server": "nodemon server",
+    "start": "node app",
+    "server": "nodemon app",
     "client": "npm start --prefix ui",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "node datainput",
