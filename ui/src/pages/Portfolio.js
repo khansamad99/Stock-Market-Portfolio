@@ -13,7 +13,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { useDispatch, useSelector } from 'react-redux';
 import {API} from '../backend';
-import { getPortfolio, tradeStocks } from '../actions/stockaction';
+import { addStocks, getPortfolio,getReturns } from '../actions/stockaction';
 import PortfolioTable from '../components/PortfolioTable';
 
 
@@ -69,14 +69,20 @@ const StyledTableCell = withStyles((theme) => ({
   const Portfolio = () => {
     const classes = useStyles();
     const dispatch = useDispatch()
-    
+
     useEffect(() => {
         dispatch(getPortfolio())
+        
     },[]);
     
     const stocks = useSelector(state => state.tradeReducer.portfolio)
-   console.log(stocks);
-   
+    let res = 0
+    useEffect(() =>{
+        dispatch(getReturns())
+    },[])
+    const returns = useSelector(state => state.tradeReducer.returns)
+    console.log(returns)
+    
     return (
       <Fragment>
       <AppBar position="static">
@@ -101,7 +107,9 @@ const StyledTableCell = withStyles((theme) => ({
             </TableRow>
           </TableHead>
           {stocks && stocks.map(item => { 
-          item.currentPrice = (400 + Math.random()*300).toFixed(2);
+          item.currentPrice  = (500 + Math.random()*100).toFixed(2)
+          item.returns = (item.currentPrice - item.buyPrice)*item.quantity
+          res = res + item.returns
           return(
             <PortfolioTable item={item}/>
           )
@@ -109,7 +117,7 @@ const StyledTableCell = withStyles((theme) => ({
         </Table>
       </TableContainer>
       <Typography variant="h6" className={classes.title}>
-                Total Returns
+              Total Returns:{res.toFixed(2)}
        </Typography>
       </Fragment>
     );

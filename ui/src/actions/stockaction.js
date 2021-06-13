@@ -5,17 +5,19 @@ import {API} from '../backend';
 import {
   GET_TRADE,
   PLACE_TRADE,
-  SET_ERROR,
+  GET_RETURNS,
+  SET_ERROR
 } from "./constant";
 
-export const tradeStocks = (stockName,trade,currentPrice,quantity) => async(dispatch) => {
+export const tradeStocks = (stockName,trade,currentPrice,quantity,returns) => async(dispatch) => {
     try {
         const config = {
             headers: {
               "Content-Type": "application/json",
             },
           };
-          const data = { stockName, trade, currentPrice, quantity};
+          const data = { stockName, trade, currentPrice, quantity,returns };
+          console.log(stockName, trade, currentPrice, quantity,returns)
           console.log("chala2");
           const res = await axios.post(
             `${API}/transactions`,
@@ -47,6 +49,33 @@ export const getPortfolio = () => async dispatch => {
       type: GET_TRADE,
       payload: res.data,
     });
+  } catch (error) {
+    toastifier("Cant fetch data now", { type: 'error', showIcon: true, animation: 'flip' })
+    console.log(error);
+    dispatch({ type: SET_ERROR });
+}
+}
+
+export const getReturns = () => async dispatch => {
+  try {
+    const res = await axios.get(
+      `${API}/returns`
+    );
+    console.log(res);
+    dispatch({
+      type: GET_RETURNS,
+      payload: res.data,
+    });
+  } catch (error) {
+    toastifier("Cant fetch data now", { type: 'error', showIcon: true, animation: 'flip' })
+    console.log(error);
+    dispatch({ type: SET_ERROR });
+}
+}
+
+export const addStocks = () => async dispatch => {
+  try {
+     await axios.post( `${API}/addStocks`);
   } catch (error) {
     toastifier("Cant fetch data now", { type: 'error', showIcon: true, animation: 'flip' })
     console.log(error);

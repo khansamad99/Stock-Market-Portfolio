@@ -6,7 +6,7 @@ const Stock = require('../models/stock')
 
 exports.addTransaction = async(req,res) => {
     try {
-        const {stockName,trade,currentPrice,quantity} = req.body
+        const {stockName,trade,currentPrice,quantity,returns} = req.body
         console.log(stockName, trade, currentPrice, quantity)
         if(trade==='buy'){
             const transaction = parseFloat((quantity*currentPrice)).toFixed(2)
@@ -22,7 +22,7 @@ exports.addTransaction = async(req,res) => {
             updateStock.currentPrice = currentPrice
             updateStock.buyPrice = ((currentPrice*quantity+updateStock.buyPrice*updateStock.quantity)/total).toFixed(2)
             updateStock.quantity = total
-            updateStock.returns = ((updateStock.currentPrice - updateStock.buyPrice)*updateStock.quantity).toFixed(2)
+            updateStock.returns = returns.toFixed(2)
             await updateStock.save()
             res.json({message:'Success'})
             
@@ -41,9 +41,9 @@ exports.addTransaction = async(req,res) => {
             console.log(updateStock)
             let total = parseInt(updateStock.quantity) - parseInt(quantity)
             updateStock.currentPrice = currentPrice
-            updateStock.sellPrice = ((currentPrice*quantity+updateStock.sellPrice*updateStock.quantity)/total).toFixed(2)
+            updateStock.sellPrice = ((currentPrice*quantity+updateStock.sellPrice*updateStock.quantity)/quantity).toFixed(2)
             updateStock.quantity = total
-            updateStock.returns = ((updateStock.currentPrice - updateStock.buyPrice)*updateStock.quantity).toFixed(2)
+            updateStock.returns = returns.toFixed(2)
             await updateStock.save()
             res.json({message:'Success'})
         }
@@ -66,9 +66,29 @@ exports.addStock = async(req, res) => {
     await Stock.insertMany(portfolio)
     res.json({message:"Success"})
 }
-exports.deleteTransactions = async(req, res) => {
-    const {id:_id} = req.params.id
-    const data = await Stock.findByIdAndRemove(id)
+
+exports.deleteData = async(req,res) => {
+    await Transaction.deleteMany({})
+    await Stock.deleteMany({})
+}
+exports.getReturns = async(req, res) => {
+    const sum = await Stock.aggregate([{
+        $group:{
+            _id: null,
+            "Returns":{
+                $sum:"$returns"
+            }
+        }
+    }])
+    res.json(sum)
+}
+
+
+exports.deleteTransaction = async(req, res) => {
+    const {id} = req.body
+    console.log(id)
+    await Transaction.findByIdAndRemove(id)
+    res.json({message:'Transaction deleted Successfully'})
 }
 
 exports.getReturn = async(req, res) => {
@@ -88,19 +108,3 @@ exports.deleteStock = async(req,res) => {
     res.json({message:'Stock removed from Portfolio'})
 }
 
-
-exports.deleteData = async(req,res) => {
-    await Transaction.deleteMany({})
-    await Stock.deleteMany({})
-}
-exports.getReturns = async(req, res) => {
-    const sum = await Stock.aggregate([{
-        $group:{
-            _id: null,
-            "Returns":{
-                $sum:"$returns"
-            }
-        }
-    }])
-    res.json(sum)
-}
