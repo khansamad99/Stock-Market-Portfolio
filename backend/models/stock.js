@@ -6,7 +6,8 @@ const stockSchema = {
         required:true
     },
     currentPrice:{
-        type:Number
+        type:Number,
+        required:true
     },
     buyPrice:{
         type:Number,

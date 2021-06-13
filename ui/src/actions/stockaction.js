@@ -7,14 +7,14 @@ import {
   SET_ERROR,
 } from "./constant";
 
-export const tradeStocks = (stockName,trade,price,quantity,currentPrice) => async(dispatch) => {
+export const tradeStocks = (stockName,trade,currentPrice,quantity) => async(dispatch) => {
     try {
         const config = {
             headers: {
               "Content-Type": "application/json",
             },
           };
-          const data = { stockName, trade,price, quantity,currentPrice };
+          const data = { stockName, trade,currentPrice, quantity};
           const res = await axios.post(
             `${API}/transactions`,
             data,

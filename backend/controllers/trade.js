@@ -1,26 +1,26 @@
 const express = require('express')
 const portfolio = require('../data/portfolio')
 const Transaction = require('../models/transaction')
-const Portfolio = require('../models/portfolio')
 const Stock = require('../models/stock')
 
 
 exports.addTransaction = async(req,res) => {
     try {
-        const {stockName,trade,quantity,price,currentPrice} = req.body
+        const {stockName,trade,currentPrice,quantity} = req.body
+        console.log(stockName, trade, currentPrice, quantity)
         if(trade==='buy'){
-            const transaction = parseFloat((quantity*price)).toFixed(2)
+            const transaction = parseFloat((quantity*currentPrice)).toFixed(2)
             const details = {
-                price: parseFloat(price),
+                price: parseFloat(currentPrice),
                 quantity: parseInt(quantity),
                 transaction
             }
             const newTransaction = new Transaction({ stockName, trade: 'buy', buy: details })
             await newTransaction.save()
-            //const data = await Stock.find({stockName})
             const updateStock = await Stock.findOne({stockName})
             let total = parseInt(updateStock.quantity) + parseInt(quantity)
-            updateStock.buyPrice = ((price*quantity+updateStock.buyPrice*updateStock.quantity)/total).toFixed(2)
+            updateStock.currentPrice = currentPrice
+            updateStock.buyPrice = ((currentPrice*quantity+updateStock.buyPrice*updateStock.quantity)/total).toFixed(2)
             updateStock.quantity = total
             updateStock.returns = ((updateStock.currentPrice - updateStock.buyPrice)*updateStock.quantity).toFixed(2)
             await updateStock.save()
@@ -36,27 +36,14 @@ exports.addTransaction = async(req,res) => {
             }
             const newTransaction = new Transaction({ stockName, trade: 'sell', sell: details })
             await newTransaction.save()
-            res.json({message:"Success"})
-            const data = await Stock.find({stockName})
-            if(data.length===0){
-                const returns = (currentPrice-price)*quantity
-                const newTrade = new Stock({ stockName,sellPrice:price,quantity})
-                console.log(newTrade)
-                await newTrade.save()
-            } 
-            else{
-                const updateStock = await Stock.findOne({stockName})
-                let total = updateStock.quantity - quantity
-                if(total<0){
-                   res.json({message:"No enough stocks to sell"})
-                }
-                    updateStock.sellPrice = ((updateStock.sellPrice*updateStock.quantity+price*quantity)/total).toFixed(2)
-                    updateStock.quantity = total
-                    await updateStock.save()
-                }
-                
-            }
-
+            const updateStock = await Stock.findOne({stockName})
+            let total = parseInt(updateStock.quantity) - parseInt(quantity)
+            updateStock.currentPrice = currentPrice
+            updateStock.sellPrice = ((currentPrice*quantity+updateStock.sellPrice*updateStock.quantity)/total).toFixed(2)
+            updateStock.quantity = total
+            updateStock.returns = ((updateStock.currentPrice - updateStock.buyPrice)*updateStock.quantity).toFixed(2)
+            await updateStock.save()
+        }
     } catch (error) {
         return res.json({message:error.message})
     }

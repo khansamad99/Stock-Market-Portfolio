@@ -11,7 +11,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
 import { useDispatch } from 'react-redux';
 import {API} from '../backend';
 import { tradeStocks } from '../actions/stockaction';
@@ -41,6 +40,7 @@ const StyledTableCell = withStyles((theme) => ({
       flexGrow: 1,
     },
     title: {
+      margin:30,
       flexGrow: 1,
     },
     list: {
@@ -67,50 +67,9 @@ const StyledTableCell = withStyles((theme) => ({
  
   const Portfolio = () => {
     const classes = useStyles();
-    const [stocks,setStocks] = useState([]);
-    const [quantity,setQuantity] = useState(0);
+    
 
-    useEffect(() => {
-        fetch(`${API}/portfolio`,{method:"GET"})
-          .then(res => res.json())
-          .then(data => {
-            setStocks(data);
-            console.log(data);
-          })
-          .catch(err => console.log(err));
-    },[]);
-    const dispatch = useDispatch()
-        const res = stocks.map(item => {
-        item.currentPrice = (400 + Math.random()*300).toFixed(2)
-        return (
-            <TableBody>
-                <TableRow key={item._id}>
-                  <TableCell align="left">{item.stockName}</TableCell>
-                  <TableCell align="left">{item.currentPrice}</TableCell>
-                  <TableCell align="left">{item.buyPrice}</TableCell>
-                  <TableCell align="left">{item.sellPrice}</TableCell>
-                  <TableCell align="left">{item.returns.toFixed(2)}</TableCell>
-                  <TableCell align="left">{item.quantity}</TableCell>
-                  <TableCell align="left"><TextField  onChange={e => setQuantity(e.target.value)}/></TableCell>
-                  <TableCell align="left">
-                    <Button className={classes.button} onClick={() => dispatch(tradeStocks(item.stockName, 'buy', item.currentPrice, quantity))} variant="contained" color="primary">
-                      Buy
-                    </Button>
-                    <Button className={classes.button}onClick={() => dispatch(tradeStocks(item.stockName, 'sell', item.currentPrice, quantity))}  variant="contained" color="primary">
-                      Sell
-                    </Button>
-                    <Button className={classes.button} variant="contained" color="primary">
-                      Edit
-                    </Button>
-                  </TableCell>
-                  {/* <TableCell align="left">
-                     <BuyTrade name={item.name} type="Buy" price={item.buy[0].price} quantity={item.buy[0].quantity}/>
-                     <SellTrade name={item.name} type="Sell" price={item.sell[0].price} quantity={item.sell[0].quantity}/>
-                  </TableCell> */}
-                </TableRow>
-            </TableBody>
-        )
-    })
+   
    
     return (
       <Fragment>
@@ -138,6 +97,9 @@ const StyledTableCell = withStyles((theme) => ({
            {res}
         </Table>
       </TableContainer>
+      <Typography variant="h6" className={classes.title}>
+                Total Returns
+       </Typography>
       </Fragment>
     );
   }
