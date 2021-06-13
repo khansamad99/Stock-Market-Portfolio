@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import { makeStyles,withStyles } from '@material-ui/core/styles';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -7,8 +7,9 @@ import TableRow from '@material-ui/core/TableRow';
 import TextField from '@material-ui/core/TextField';
 import { useDispatch } from 'react-redux';
 import { tradeStocks } from '../actions/stockaction';
+import {API} from '../backend';
 
-const StyledTableCell = withStyles((theme) => ({
+const styledTableCell = withStyles((theme) => ({
     head: {
       backgroundColor: theme.palette.common.black,
       color: theme.palette.common.white,
@@ -57,26 +58,12 @@ const StyledTableCell = withStyles((theme) => ({
   });
   
 
-const PortfolioTable = ({stocks}) => {
+const PortfolioTable = ({item, fetchStocks}) => {
     const dispatch = useDispatch()
     const classes = useStyles();
     const [quantity,setQuantity] = useState(0);
 
-    const [stocks,setStocks] = useState([]);
-    
-    useEffect(() => {
-        fetch(`${API}/portfolio`,{method:"GET"})
-          .then(res => res.json())
-          .then(data => {
-            setStocks(data);
-            console.log(data);
-          })
-          .catch(err => console.log(err));
-    },[]);
-
-        const res = stocks.map(item => {
-        item.currentPrice = (400 + Math.random()*300).toFixed(2)
-        return (
+    return (
             <TableBody>
                 <TableRow key={item._id}>
                   <TableCell align="left">{item.stockName}</TableCell>
@@ -87,10 +74,10 @@ const PortfolioTable = ({stocks}) => {
                   <TableCell align="left">{item.quantity}</TableCell>
                   <TableCell align="left"><TextField  onChange={e => setQuantity(e.target.value)}/></TableCell>
                   <TableCell align="left">
-                    <Button className={classes.button} onClick={() => dispatch(tradeStocks(item.stockName, 'buy', item.currentPrice, quantity))} variant="contained" color="primary">
+                    <Button disabled={ quantity === 0 || !quantity || isNaN(quantity)} className={classes.button} onClick={() => {dispatch(tradeStocks(item.stockName, 'buy', item.currentPrice, quantity)); fetchStocks()}} variant="contained" color="primary">
                       Buy
                     </Button>
-                    <Button className={classes.button}onClick={() => dispatch(tradeStocks(item.stockName, 'sell', item.currentPrice, quantity))}  variant="contained" color="primary">
+                    <Button disabled={ ((item.quantity-quantity)<0) || quantity === 0 || !quantity || isNaN(quantity)} className={classes.button}onClick={() => {dispatch(tradeStocks(item.stockName, 'sell', item.currentPrice, quantity)); fetchStocks()}}  variant="contained" color="primary">
                       Sell
                     </Button>
                     <Button className={classes.button} variant="contained" color="primary">
@@ -103,8 +90,6 @@ const PortfolioTable = ({stocks}) => {
                   </TableCell> */}
                 </TableRow>
             </TableBody>
-        )
-    })
-}
+    )}
 
 export default PortfolioTable

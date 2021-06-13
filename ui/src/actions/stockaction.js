@@ -25,10 +25,6 @@ export const tradeStocks = (stockName,trade,currentPrice,quantity) => async(disp
             payload: res.data,
           });
           toastifier("Trade completed", { showIcon: true, animation: 'flip' })
-          setTimeout(() => {
-            if (process.browser)
-              window.location.reload()
-          }, 500)
     } catch (error) {
         toastifier(error.response.data.message, { type: 'error', showIcon: true, animation: 'flip' })
         console.log(error);

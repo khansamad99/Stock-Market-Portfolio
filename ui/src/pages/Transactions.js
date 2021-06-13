@@ -75,6 +75,7 @@ const StyledTableCell = withStyles((theme) => ({
           .catch(err => console.log(err));
     },[]);
     console.log(transaction)
+        transaction.reverse()
         const res = transaction.map(item => {
         return (
             <TableBody>

@@ -19,7 +19,8 @@ const stockSchema = {
     },
     quantity:{
         type:Number,
-        required:true
+        required:true,
+        default:0
     },
     returns:{
         type:Number,

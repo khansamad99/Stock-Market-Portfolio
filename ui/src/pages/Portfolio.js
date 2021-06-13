@@ -14,6 +14,7 @@ import Paper from '@material-ui/core/Paper';
 import { useDispatch } from 'react-redux';
 import {API} from '../backend';
 import { tradeStocks } from '../actions/stockaction';
+import PortfolioTable from '../components/PortfolioTable';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -67,6 +68,22 @@ const StyledTableCell = withStyles((theme) => ({
  
   const Portfolio = () => {
     const classes = useStyles();
+
+    const [stocks,setStocks] = useState([]);
+    
+    const fetchStocks = () => {
+        fetch(`${API}/portfolio`,{method:"GET"})
+          .then(res => res.json())
+          .then(data => {
+            setStocks(data)
+            console.log(data);
+          })
+          .catch(err => console.log(err));
+    };
+    
+    useEffect(() => {
+        fetchStocks()
+    },[]);
     
 
    
@@ -94,7 +111,12 @@ const StyledTableCell = withStyles((theme) => ({
               <StyledTableCell align="left">Buy/Sell</StyledTableCell>
             </TableRow>
           </TableHead>
-           {res}
+          {stocks.map(item => { 
+          item.currentPrice = (400 + Math.random()*300).toFixed(2);
+          return(
+            <PortfolioTable fetchStocks={fetchStocks} setStocks={setStocks} item={item}/>
+          )
+          })}
         </Table>
       </TableContainer>
       <Typography variant="h6" className={classes.title}>
