@@ -89,6 +89,7 @@ const StyledTableCell = withStyles((theme) => ({
                   <TableCell align="left">{item.trade === 'sell' ? item.sell[0].price : item.buy[0].price}</TableCell>
                   <TableCell align="left">{item.trade === 'sell' ? item.sell[0].quantity : item.buy[0].quantity}</TableCell>
                   <TableCell align="left">
+                    {item._id}
                     <DeleteIcon/>
                   </TableCell>
                 </TableRow>

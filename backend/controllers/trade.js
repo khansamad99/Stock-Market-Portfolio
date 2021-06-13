@@ -86,9 +86,34 @@ exports.getReturns = async(req, res) => {
 
 exports.deleteTransaction = async(req, res) => {
     const {id} = req.body
-    console.log(id)
+    const data = await Transaction.findById(id)
+    //console.log(data)
+    const stockName = data.stockName
+    const tradeType = data.trade 
+    console.log(stockName)
+    const stockData = await Stock.findOne({stockName})
+    //console.log(stockData)
+    if(tradeType === 'buy'){
+        let quantitydeleted = data.buy[0].quantity
+        let avgBuy = stockData.buyPrice
+        let quantity = stockData.quantity
+        let newBuyPrice = (avgBuy*quantity-data.buy[0].price)/(quantity-quantitydeleted)
+        console.log(quantitydeleted,quantity)
+        stockData.buyPrice = newBuyPrice.toFixed(2)
+        stockData.quantity = (quantity-quantitydeleted)
+        await stockData.save()
+    }
+    else{
+        let quantitydeleted = data.sell[0].quantity
+        let avgSell = stockData.sellPrice
+        let quantity = stockData.quantity
+        let newSellPrice = (avgSell*quantity-data.sell[0].price)/(quantity-quantitydeleted)
+        stockData.sellPrice = newSellPrice
+        stockData.quantity = (quantity-quantitydeleted)
+        await stockData.save()
+    }
     await Transaction.findByIdAndRemove(id)
-    res.json({message:'Transaction deleted Successfully'})
+    res.json({message:"Transaction Deleted Stock updated"})
 }
 
 exports.getReturn = async(req, res) => {
