@@ -58,7 +58,7 @@ const styledTableCell = withStyles((theme) => ({
   });
   
 
-const PortfolioTable = ({item, fetchStocks}) => {
+const PortfolioTable = ({item}) => {
     const dispatch = useDispatch()
     const classes = useStyles();
     const [quantity,setQuantity] = useState(0);
@@ -74,10 +74,10 @@ const PortfolioTable = ({item, fetchStocks}) => {
                   <TableCell align="left">{item.quantity}</TableCell>
                   <TableCell align="left"><TextField  onChange={e => setQuantity(e.target.value)}/></TableCell>
                   <TableCell align="left">
-                    <Button disabled={ quantity === 0 || !quantity || isNaN(quantity)} className={classes.button} onClick={() => {dispatch(tradeStocks(item.stockName, 'buy', item.currentPrice, quantity)); fetchStocks()}} variant="contained" color="primary">
+                    <Button disabled={ quantity === 0 || !quantity || isNaN(quantity)} className={classes.button} onClick={() => dispatch(tradeStocks(item.stockName, 'buy', item.currentPrice, quantity))} variant="contained" color="primary">
                       Buy
                     </Button>
-                    <Button disabled={ ((item.quantity-quantity)<0) || quantity === 0 || !quantity || isNaN(quantity)} className={classes.button}onClick={() => {dispatch(tradeStocks(item.stockName, 'sell', item.currentPrice, quantity)); fetchStocks()}}  variant="contained" color="primary">
+                    <Button disabled={ ((item.quantity-quantity)<0) || quantity === 0 || !quantity || isNaN(quantity)} className={classes.button} onClick={() => dispatch(tradeStocks(item.stockName, 'sell', item.currentPrice, quantity))}  variant="contained" color="primary">
                       Sell
                     </Button>
                     <Button className={classes.button} variant="contained" color="primary">

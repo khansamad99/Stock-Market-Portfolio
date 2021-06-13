@@ -29,7 +29,6 @@ exports.addTransaction = async(req,res) => {
         } else{
             console.log('here')
             const transaction = parseFloat((quantity*currentPrice)).toFixed(2)
-            console.log(stockName, trade, currentPrice,quantity)
             const details = {
                 price: parseFloat(currentPrice),
                 quantity: parseInt(quantity),
@@ -46,6 +45,7 @@ exports.addTransaction = async(req,res) => {
             updateStock.quantity = total
             updateStock.returns = ((updateStock.currentPrice - updateStock.buyPrice)*updateStock.quantity).toFixed(2)
             await updateStock.save()
+            res.json({message:'Success'})
         }
     } catch (error) {
         res.json({message:error.message})
@@ -92,4 +92,15 @@ exports.deleteStock = async(req,res) => {
 exports.deleteData = async(req,res) => {
     await Transaction.deleteMany({})
     await Stock.deleteMany({})
+}
+exports.getReturns = async(req, res) => {
+    const sum = await Stock.aggregate([{
+        $group:{
+            _id: null,
+            "Returns":{
+                $sum:"$returns"
+            }
+        }
+    }])
+    res.json(sum)
 }

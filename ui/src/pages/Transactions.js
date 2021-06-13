@@ -2,6 +2,7 @@ import React,{Fragment,useEffect,useState} from 'react';
 import { makeStyles,withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,6 +11,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { useDispatch} from 'react-redux';
+// import {deleteTransaction} from '../actions/stockaction'
 import {API} from '../backend';
 
 
@@ -64,6 +67,7 @@ const StyledTableCell = withStyles((theme) => ({
  
   const Transactions = () => {
     const classes = useStyles();
+    const dispatch = useDispatch()
     const [transaction,setTransaction] = useState([]);
 
     useEffect(() => {
@@ -84,6 +88,7 @@ const StyledTableCell = withStyles((theme) => ({
                   <TableCell align="left">{item.trade.toUpperCase()}</TableCell>
                   <TableCell align="left">{item.trade === 'sell' ? item.sell[0].price : item.buy[0].price}</TableCell>
                   <TableCell align="left">{item.trade === 'sell' ? item.sell[0].quantity : item.buy[0].quantity}</TableCell>
+                  
                 </TableRow>
             </TableBody>
         )
@@ -106,6 +111,7 @@ const StyledTableCell = withStyles((theme) => ({
               <StyledTableCell align="left">Trade</StyledTableCell>
               <StyledTableCell align="left">Price</StyledTableCell>
               <StyledTableCell align="left">Quantity</StyledTableCell>
+              <StyledTableCell align="left">DELETE</StyledTableCell>
             </TableRow>
           </TableHead>
            {res}

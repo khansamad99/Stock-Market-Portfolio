@@ -1,8 +1,9 @@
-import { PLACE_TRADE ,SET_ERROR } from '../actions/constant'
+import { GET_TRADE, PLACE_TRADE ,SET_ERROR } from '../actions/constant'
 
 const initialState = {
     trade: {},
     error: "",
+    portfolio: null
 }
 
 const tradeReducer = (state = initialState, actions) => {
@@ -11,6 +12,11 @@ const tradeReducer = (state = initialState, actions) => {
             return {
                 ...state,
                 trade: actions.payload
+            }
+        case GET_TRADE:
+            return {
+                ...state,
+                portfolio: actions.payload
             }
         case SET_ERROR:
             return {
