@@ -1,60 +1,19 @@
 const portfolio = [
     {
-        name:'TCS',
-        trade:'Buy',
-        buy:{
-            price:500,
-            quantity:5,
-            transaction:2500
-        },
-        buy:{
-            price:500,
-            quantity:5,
-            transaction:2500
-        },
-        buy:{
-            price:500,
-            quantity:5,
-            transaction:2500
-        },
-        buy:{
-            price:500,
-            quantity:5,
-            transaction:2500
-        },
-        sell:{
-            price:560,
-            quantity:3,
-            transaction:1680
-        }
+        "stockName":"TCS",
+        "quantity":0
     },
     {
-        name:'WIPRO',
-        trade:'Sell',
-        buy:{
-            price:500,
-            quantity:5,
-            transaction:2500
-        },
-        sell:{
-            price:560,
-            quantity:3,
-            transaction:1680
-        }
+        "stockName":"INFOSYS",
+        "quantity":0
     },
     {
-        name:'GODREJ',
-        trade:'Buy',
-        buy:{
-            price:500,
-            quantity:5,
-            transaction:2500
-        },
-        sell:{
-            price:560,
-            quantity:3,
-            transaction:1680
-        }
+        "stockName":"WIPRO",
+        "quantity":0
+    },
+    {
+        "stockName":"GODREJ",
+        "quantity":0
     }
 ]
 

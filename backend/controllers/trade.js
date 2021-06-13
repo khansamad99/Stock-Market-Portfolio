@@ -11,29 +11,21 @@ exports.addTransaction = async(req,res) => {
         if(trade==='buy'){
             const transaction = parseFloat((quantity*price)).toFixed(2)
             const details = {
-                price,
-                quantity,
+                price: parseFloat(price),
+                quantity: parseInt(quantity),
                 transaction
             }
             const newTransaction = new Transaction({ stockName, trade: 'buy', buy: details })
             await newTransaction.save()
-            res.json({message:"Success"})
-            const data = await Stock.find({stockName})
-            if(data.length===0){
-                const returns = (currentPrice-price)*quantity
-                const newTrade = new Stock({ stockName,buyPrice:price,quantity,returns})
-                console.log(newTrade)
-                await newTrade.save()
-            } 
-            else{
-                const updateStock = await Stock.findOne({stockName})
-                let total = updateStock.quantity + quantity
-                updateStock.buyPrice = ((price*quantity+updateStock.buyPrice*updateStock.quantity)/total).toFixed(2)
-                updateStock.quantity = total
-                updateStock.returns = ((updateStock.currentPrice - updateStock.buyPrice)*updateStock.quantity).toFixed(2)
-                await updateStock.save()
+            //const data = await Stock.find({stockName})
+            const updateStock = await Stock.findOne({stockName})
+            let total = parseInt(updateStock.quantity) + parseInt(quantity)
+            updateStock.buyPrice = ((price*quantity+updateStock.buyPrice*updateStock.quantity)/total).toFixed(2)
+            updateStock.quantity = total
+            updateStock.returns = ((updateStock.currentPrice - updateStock.buyPrice)*updateStock.quantity).toFixed(2)
+            await updateStock.save()
                 
-            } 
+            
         }
         else{
             const transaction = parseFloat((quantity*price)).toFixed(2)
@@ -58,14 +50,15 @@ exports.addTransaction = async(req,res) => {
                 if(total<0){
                    res.json({message:"No enough stocks to sell"})
                 }
-                updateStock.sellPrice = ((updateStock.sellPrice*updateStock.quantity+price*quantity)/total).toFixed(2)
-                updateStock.quantity = total
-                await updateStock.save()
+                    updateStock.sellPrice = ((updateStock.sellPrice*updateStock.quantity+price*quantity)/total).toFixed(2)
+                    updateStock.quantity = total
+                    await updateStock.save()
+                }
                 
             }
-        } 
+
     } catch (error) {
-        res.json({message:error.message})
+        return res.json({message:error.message})
     }
 }
 
@@ -79,6 +72,10 @@ exports.fetchPortfolio = async(req, res) => {
     res.json(data)
 }
 
+exports.addStock = async(req, res) => {
+    await Stock.insertMany(portfolio)
+    res.json({message:"Success"})
+}
 exports.deleteTransactions = async(req, res) => {
     const {id:_id} = req.params.id
     const data = await Stock.findByIdAndRemove(id)
@@ -103,6 +100,6 @@ exports.deleteStock = async(req,res) => {
 
 
 exports.deleteData = async(req,res) => {
-    await Stock.deleteMany(portfolio);
-    console.log('Data imported');
+    await Transaction.deleteMany({})
+    await Stock.deleteMany({})
 }
