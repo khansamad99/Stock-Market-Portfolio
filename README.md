@@ -204,5 +204,3 @@ GET /returns
 
   **Content:** `{"Transaction Deleted Stock updated" }`
 
-
-```
