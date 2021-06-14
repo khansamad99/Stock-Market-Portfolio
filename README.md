@@ -28,11 +28,10 @@
 
 * **Success Response:**
 
-  * **Code:** 200 <br />
+     **Code:** 200 OK
+   
     **Content:** `{"Success" }`
-
-  ```
-  
+    
 **Request:**
 ```json
 POST /Transactions/
