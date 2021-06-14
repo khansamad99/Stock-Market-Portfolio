@@ -77,11 +77,12 @@ const StyledTableCell = withStyles((theme) => ({
     
     const stocks = useSelector(state => state.tradeReducer.portfolio)
     let res = 0
-    useEffect(() =>{
-        dispatch(getReturns())
-    },[])
-    const returns = useSelector(state => state.tradeReducer.returns)
-    console.log(returns)
+    
+    // useEffect(() =>{
+    //     dispatch(getReturns())
+    // },[])
+    // const returns = useSelector(state => state.tradeReducer.returns)
+    // console.log(returns)
     
     return (
       <Fragment>

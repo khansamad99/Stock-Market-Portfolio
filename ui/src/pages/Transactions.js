@@ -2,7 +2,6 @@ import React,{Fragment,useEffect,useState} from 'react';
 import { makeStyles,withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -89,8 +88,9 @@ const StyledTableCell = withStyles((theme) => ({
                   <TableCell align="left">{item.trade === 'sell' ? item.sell[0].price : item.buy[0].price}</TableCell>
                   <TableCell align="left">{item.trade === 'sell' ? item.sell[0].quantity : item.buy[0].quantity}</TableCell>
                   <TableCell align="left">
-                    {item._id}
-                    <DeleteIcon/>
+                     <Button className={classes.button} variant="contained" color="primary">
+                      Delete
+                    </Button>
                   </TableCell>
                 </TableRow>
             </TableBody>

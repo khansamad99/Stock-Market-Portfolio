@@ -80,9 +80,6 @@ const PortfolioTable = ({item}) => {
                     <Button disabled={ ((item.quantity-quantity)<0) || quantity === 0 || !quantity || isNaN(quantity)} className={classes.button} onClick={() => dispatch(tradeStocks(item.stockName, 'sell', item.currentPrice, quantity,item.returns))}  variant="contained" color="primary">
                       Sell
                     </Button>
-                    <Button className={classes.button} variant="contained" color="primary">
-                      Edit
-                    </Button>
                   </TableCell>
                   {/* <TableCell align="left">
                      <BuyTrade name={item.name} type="Buy" price={item.buy[0].price} quantity={item.buy[0].quantity}/>
