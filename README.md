@@ -1,4 +1,7 @@
-**Add Transaction**
+ 
+ **PORTFOLIO TRACKING API**
+
+1.**Add Transaction**
 ----
   Add a transaction with Trade type-Buy/Sell and stockName, price , quantity
 
@@ -45,7 +48,7 @@ Content-Type: application/json
 
 ```
 
-**Fetch Transactions**
+2.**Fetch Transactions**
 ----
   Fetch All Transactions
 
@@ -102,4 +105,48 @@ GET /allTransactions
 ```
 
 
+3.**Fetch Portfolio**
+----
+  Fetch Portfolio
 
+* **URL**
+
+  /portfolio
+
+* **Method:**
+
+  `GET`
+  
+
+* **Success Response:**
+
+   **Code:** 200 OK
+
+**Response:**
+```json
+GET /portfolio
+
+[
+    {
+        "buyPrice": 574.21,
+        "sellPrice": 500,
+        "quantity": 0,
+        "returns": 40,
+        "_id": "60c6574c26a5046c0499777d",
+        "stockName": "TCS",
+        "currentPrice": 500,
+        "__v": 0
+    },
+    {
+        "buyPrice": 0,
+        "sellPrice": 0,
+        "quantity": 0,
+        "returns": 0,
+        "_id": "60c6574c26a5046c0499777e",
+        "stockName": "INFOSYS",
+        "currentPrice": 600,
+        "__v": 0
+    }
+]
+
+```
