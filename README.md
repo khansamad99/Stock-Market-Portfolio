@@ -1,7 +1,7 @@
  
  **PORTFOLIO TRACKING API**
 
-1.**Add Transaction**
+1.**Add Transaction/Trade**
 ----
   Add a transaction with Trade type-Buy/Sell and stockName, price , quantity
 
@@ -18,8 +18,11 @@
    **Required:**
  
    `stockName=[string]`
+
    `Trade=[string]`
+
    `Price=[Number]`
+
    `qunatity=[integer]`
 
 
@@ -48,7 +51,7 @@ Content-Type: application/json
 
 ```
 
-2.**Fetch Transactions**
+2.**Fetch Transactions/Trades**
 ----
   Fetch All Transactions
 
@@ -146,6 +149,36 @@ GET /portfolio
         "stockName": "INFOSYS",
         "currentPrice": 600,
         "__v": 0
+    }
+]
+
+```
+
+4.**Fetch Returns**
+----
+  Fetch Returns by summing up all returns of each Stock
+
+* **URL**
+
+  /returns
+
+* **Method:**
+
+  `GET`
+  
+
+* **Success Response:**
+
+   **Code:** 200 OK
+
+**Response:**
+```json
+GET /returns
+
+[
+    {
+        "_id": null,
+        "Returns": 40
     }
 ]
 
