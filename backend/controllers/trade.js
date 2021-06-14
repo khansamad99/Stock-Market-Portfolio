@@ -128,7 +128,7 @@ exports.updateStock = async(req,res) => {
 }
 
 exports.deleteStock = async(req,res) => {
-    const {id:_id} = req.params.id
+    const {id} = req.body
     await Stock.findByIdAndRemove(id)
     res.json({message:'Stock removed from Portfolio'})
 }
