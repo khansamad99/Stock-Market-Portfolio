@@ -1,0 +1,1 @@
+export const API = "https://portfolio-assign.herokuapp.com/api/stocks/"
