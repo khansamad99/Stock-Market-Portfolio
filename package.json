@@ -6,10 +6,9 @@
   "scripts": {
     "start": "node backend/app",
     "server": "nodemon backend/app",
-    "client": "npm start --prefix ui",
+    "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "data:import": "node datainput",
-    "data:destroy": "node datainput -d"
+    "build": "npm run build --prefix frontend"
   },
   "author": "Samad Khan",
   "license": "ISC",
