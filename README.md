@@ -182,3 +182,27 @@ GET /returns
 ]
 
 ```
+
+5.**Delete Transaction/Trade**
+----
+  Delete a previous placed transaction/trade
+
+  Also updated Stock for which transaction was deleted
+
+* **URL**
+
+  /returns
+
+* **Method:**
+
+  `DELETE`
+  
+
+* **Success Response:**
+
+   **Code:** 200 OK
+
+  **Content:** `{"Transaction Deleted Stock updated" }`
+
+
+```
