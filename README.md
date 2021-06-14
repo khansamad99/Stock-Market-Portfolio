@@ -60,7 +60,7 @@ Content-Type: application/json
 
 * **Success Response:**
 
-   **Code:** 200 <br />
+   **Code:** 200 OK
 
 **Response:**
 ```json
