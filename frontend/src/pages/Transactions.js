@@ -1,10 +1,9 @@
-import React,{Fragment,useEffect,useState} from 'react';
+import React,{Fragment,useEffect} from 'react';
 import { makeStyles,withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
@@ -70,12 +69,10 @@ const StyledTableCell = withStyles((theme) => ({
     const classes = useStyles();
 
     useEffect(() => {
-      console.log("chala");
       dispatch(getTransaction())
-    },[]);
-    // transaction.reverse()
+    },[dispatch]);
     const transaction = useSelector(state => state.tradeReducer.transaction)
-    console.log(transaction)
+    transaction.reverse()
    
     return (
       <Fragment>

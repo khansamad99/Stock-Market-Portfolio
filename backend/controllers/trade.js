@@ -7,7 +7,6 @@ const Stock = require('../models/stock')
 exports.addTransaction = async(req,res) => {
     try {
         const {stockName,trade,currentPrice,quantity,returns} = req.body
-        console.log(stockName, trade, currentPrice, quantity)
         if(trade==='buy'){
             const transaction = parseFloat((quantity*currentPrice)).toFixed(2)
             const details = {
@@ -27,7 +26,6 @@ exports.addTransaction = async(req,res) => {
             res.json({message:'Success'})
             
         } else{
-            console.log('here')
             const transaction = parseFloat((quantity*currentPrice)).toFixed(2)
             const details = {
                 price: parseFloat(currentPrice),
@@ -35,10 +33,8 @@ exports.addTransaction = async(req,res) => {
                 transaction
             }
             const newTransaction = new Transaction({ stockName, trade: 'sell', sell: details })
-            console.log(newTransaction)
             await newTransaction.save()
             const updateStock = await Stock.findOne({stockName})
-            console.log(updateStock)
             let total = parseInt(updateStock.quantity) - parseInt(quantity)
             updateStock.currentPrice = currentPrice
             updateStock.sellPrice = ((currentPrice*quantity+updateStock.sellPrice*updateStock.quantity)/quantity).toFixed(2)
@@ -70,6 +66,7 @@ exports.addStock = async(req, res) => {
 exports.deleteData = async(req,res) => {
     await Transaction.deleteMany({})
     await Stock.deleteMany({})
+    res.json({message:"Success"})
 }
 exports.getReturns = async(req, res) => {
     const sum = await Stock.aggregate([{
@@ -87,18 +84,14 @@ exports.getReturns = async(req, res) => {
 exports.deleteTransaction = async(req, res) => {
     const { id } = req.params
     const data = await Transaction.findById(id)
-    //console.log(data)
     const stockName = data.stockName
-    const tradeType = data.trade 
-    console.log(stockName)
+    const tradeType = data.trade
     const stockData = await Stock.findOne({stockName})
-    //console.log(stockData)
     if(tradeType === 'buy'){
         let quantitydeleted = data.buy[0].quantity
-        let avgBuy = stockData.buyPrice
-        let quantity = stockData.quantity
-        let newBuyPrice = (avgBuy*quantity-data.buy[0].price)/(quantity-quantitydeleted)
-        console.log(quantitydeleted,quantity)
+        let avgBuy = parseFloat(stockData.buyPrice)
+        let quantity = parseInt(stockData.quantity)
+        let newBuyPrice = (avgBuy*quantity-(data.buy[0].price*quantitydeleted))/(quantity-quantitydeleted)
         stockData.buyPrice = newBuyPrice.toFixed(2)
         stockData.quantity = (quantity-quantitydeleted)
         await stockData.save()
@@ -116,16 +109,6 @@ exports.deleteTransaction = async(req, res) => {
     res.json({message:"Transaction Deleted Stock updated"})
 }
 
-exports.getReturn = async(req, res) => {
-    const data = await Stock.find({})
-}
-exports.updateStock = async(req,res) => {
-    const {id:_id} = req.params.id
-    const stock = req.body
-
-    const updatedStock = await Stock.findByIdAndUpdate(_id,{...stock,_id},{new:true})
-    res.json(updatedStock)
-}
 
 exports.deleteStock = async(req,res) => {
     const {id} = req.body
