@@ -1,5 +1,6 @@
 import React,{Fragment,useEffect} from 'react';
 import { makeStyles,withStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -26,6 +27,7 @@ const StyledTableCell = withStyles((theme) => ({
   }))(TableCell);
 
   const useStyles = makeStyles({
+    
     table: {
       minWidth: 700,
     },
@@ -83,11 +85,12 @@ const StyledTableCell = withStyles((theme) => ({
     
     return (
       <Fragment>
+      
       <AppBar position="static">
           <Toolbar>
               <Button color="inherit" href="/">Homepage</Button>
               <Button color="inherit" href="/transaction">Recent Transactions</Button>
-          </Toolbar>
+          </Toolbar>   
       </AppBar>
       <h1 className="text-center" >Portfolio</h1>
       <TableContainer component={Paper}>
