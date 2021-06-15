@@ -11,7 +11,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 // import {deleteTransaction} from '../actions/stockaction'
-import {API} from '../backend';
+import { getTransaction } from '../actions/stockaction'
+import { useDispatch, useSelector } from 'react-redux'
+import TransactionTable from '../components/TransactionTable';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -64,36 +66,16 @@ const StyledTableCell = withStyles((theme) => ({
   
  
   const Transactions = () => {
+    const dispatch = useDispatch()
     const classes = useStyles();
-    const [transaction,setTransaction] = useState([]);
 
     useEffect(() => {
-        fetch(`${API}/alltransactions`,{method:"GET"})
-          .then(res => res.json())
-          .then(data => {
-            setTransaction(data);
-          })
-          .catch(err => console.log(err));
+      console.log("chala");
+      dispatch(getTransaction())
     },[]);
+    // transaction.reverse()
+    const transaction = useSelector(state => state.tradeReducer.transaction)
     console.log(transaction)
-        transaction.reverse()
-        const res = transaction.map(item => {
-        return (
-            <TableBody>
-                <TableRow key={item._id}>
-                  <TableCell align="left">{item.stockName}</TableCell>
-                  <TableCell align="left">{item.trade.toUpperCase()}</TableCell>
-                  <TableCell align="left">{item.trade === 'sell' ? item.sell[0].price : item.buy[0].price}</TableCell>
-                  <TableCell align="left">{item.trade === 'sell' ? item.sell[0].quantity : item.buy[0].quantity}</TableCell>
-                  <TableCell align="left">
-                     <Button className={classes.button} variant="contained" color="primary">
-                      Delete
-                    </Button>
-                  </TableCell>
-                </TableRow>
-            </TableBody>
-        )
-    })
    
     return (
       <Fragment>
@@ -115,7 +97,9 @@ const StyledTableCell = withStyles((theme) => ({
               <StyledTableCell align="left">DELETE</StyledTableCell>
             </TableRow>
           </TableHead>
-           {res}
+           {transaction.map(item => 
+              <TransactionTable item={item}/>
+            )}
         </Table>
       </TableContainer>
       </Fragment>

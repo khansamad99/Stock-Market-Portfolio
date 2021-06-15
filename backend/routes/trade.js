@@ -8,7 +8,7 @@ router.get('/alltransactions',fetchTransactions)
 router.get('/portfolio',fetchPortfolio)
 router.get('/returns',getReturns)
 router.delete('/delete',deleteData)
-router.delete('/transaction/delete',deleteTransaction)
+router.delete('/transactions/:id',deleteTransaction)
 router.post('/addStocks',addStock)
 
 

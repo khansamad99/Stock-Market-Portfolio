@@ -6,7 +6,9 @@ import {
   GET_TRADE,
   PLACE_TRADE,
   GET_RETURNS,
-  SET_ERROR
+  SET_ERROR,
+  SET_TRANSACTION,
+  DELETE_TRANSACTION
 } from "./constant";
 
 export const tradeStocks = (stockName,trade,currentPrice,quantity,returns) => async(dispatch) => {
@@ -82,31 +84,33 @@ export const addStocks = () => async dispatch => {
     dispatch({ type: SET_ERROR });
 }
 }
-// export const deleteTransaction = (id) => async(dispatch) => {
-//   try {
-//       const config = {
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//         };
-//         const data = { id};
-//         const res = await axios.delete(
-//           `${API}/transactions`,
-//           data,
-//           config
-//         );
-//         dispatch({
-//           type: DELETE_TRANSACTION,
-//           payload: res.data,
-//         });
-//         toastifier("Transaction Deleted", { showIcon: true, animation: 'flip' })
-//         setTimeout(() => {
-//           if (process.browser)
-//             window.location.reload()
-//         }, 500)
-//   } catch (error) {
-//       toastifier(error.response.data.message, { type: 'error', showIcon: true, animation: 'flip' })
-//       console.log(error);
-//       dispatch({ type: SET_ERROR });
-// }
-// }
+
+export const getTransaction = () => async dispatch => {
+  try {
+    const res = await axios.get(`${API}/alltransactions`)
+    console.log(res);
+    dispatch({type: SET_TRANSACTION, payload: res.data })
+  } catch (error) {
+    toastifier("Cant fetch data now", { type: 'error', showIcon: true, animation: 'flip' })
+    console.log(error);
+    dispatch({ type: SET_ERROR });
+  }
+}
+
+export const deleteTransaction = (id) => async(dispatch) => {
+  try {
+        await axios.delete(
+          `${API}transactions/${id}`)
+
+        dispatch({
+          type: DELETE_TRANSACTION,
+          payload: id,
+        });
+        toastifier("Transaction Deleted", { showIcon: true, animation: 'flip' })
+      }
+      catch (error) {
+        toastifier(error.response.data.message, { type: 'error', showIcon: true, animation: 'flip' })
+        console.log(error);
+        dispatch({ type: SET_ERROR });
+      }
+}

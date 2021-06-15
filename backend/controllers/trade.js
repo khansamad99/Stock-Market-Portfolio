@@ -85,7 +85,7 @@ exports.getReturns = async(req, res) => {
 
 
 exports.deleteTransaction = async(req, res) => {
-    const {id} = req.body
+    const { id } = req.params
     const data = await Transaction.findById(id)
     //console.log(data)
     const stockName = data.stockName

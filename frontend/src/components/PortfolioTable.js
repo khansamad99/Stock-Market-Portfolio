@@ -58,8 +58,8 @@ const PortfolioTable = ({item}) => {
                 <TableRow key={item._id}>
                   <TableCell align="left">{item.stockName}</TableCell>
                   <TableCell align="left">{item.currentPrice}</TableCell>
-                  <TableCell align="left">{item.buyPrice}</TableCell>
-                  <TableCell align="left">{item.sellPrice}</TableCell>
+                  <TableCell align="left">{item.buyPrice === null ? 0 : item.buyPrice}</TableCell>
+                  <TableCell align="left">{item.sellPrice === null ? 0 : item.sellPrice}</TableCell>
                   <TableCell align="left">{item.returns.toFixed(2)}</TableCell>
                   <TableCell align="left">{item.quantity}</TableCell>
                   <TableCell align="left"><TextField  onChange={e => setQuantity(e.target.value)}/></TableCell>
