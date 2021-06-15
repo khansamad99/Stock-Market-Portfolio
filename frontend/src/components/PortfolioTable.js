@@ -64,10 +64,10 @@ const PortfolioTable = ({item}) => {
                   <TableCell align="left">{item.quantity}</TableCell>
                   <TableCell align="left"><TextField  onChange={e => setQuantity(e.target.value)}/></TableCell>
                   <TableCell align="left">
-                    <Button disabled={ quantity === 0 || !quantity || isNaN(quantity)} className={classes.button} onClick={() => dispatch(tradeStocks(item.stockName, 'buy', item.currentPrice, quantity,item.returns))} variant="contained" color="primary">
+                    <Button disabled={ quantity<0 || quantity === 0 || !quantity || isNaN(quantity)} className={classes.button} onClick={() => dispatch(tradeStocks(item.stockName, 'buy', item.currentPrice, quantity,item.returns))} variant="contained" color="primary">
                       Buy
                     </Button>
-                    <Button disabled={ ((item.quantity-quantity)<0) || quantity === 0 || !quantity || isNaN(quantity)} className={classes.button} onClick={() => dispatch(tradeStocks(item.stockName, 'sell', item.currentPrice, quantity,item.returns))}  variant="contained" color="primary">
+                    <Button disabled={ quantity<0 || ((item.quantity-quantity)<0) || quantity === 0 || !quantity || isNaN(quantity)} className={classes.button} onClick={() => dispatch(tradeStocks(item.stockName, 'sell', item.currentPrice, quantity,item.returns))}  variant="contained" color="primary">
                       Sell
                     </Button>
                   </TableCell>

@@ -92,7 +92,7 @@ const StyledTableCell = withStyles((theme) => ({
               <StyledTableCell align="left">Price</StyledTableCell>
               <StyledTableCell align="left">Quantity</StyledTableCell>
               <StyledTableCell align="left">DELETE</StyledTableCell>
-            </TableRow>
+            </TableRow>  
           </TableHead>
            {transaction.map(item => 
               <TransactionTable item={item}/>
